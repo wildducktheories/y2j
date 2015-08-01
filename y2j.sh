@@ -77,7 +77,7 @@ case $(basename "$0" .sh) in
 		y2j "$@"
 		exit $?
 	;;
+	*)
+		die "unable to determine mode - check name of script - '$(dirname $0)'"
+	;;
 esac
-
-cmd=$1
-shift 1
