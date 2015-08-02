@@ -6,9 +6,15 @@
 	y2j < yaml > json
 	j2y -d < yaml > json
 
+	# convert from YAML to JSON with optional trailing jq transformation
+	y2j {jq-filter} < yaml
+
 	# convert from JSON to YAML
 	j2y < json > yaml
 	y2j -d < json > yaml
+
+	# convert from JSON to YAM with optional leading jq transformation
+	j2y {jq-filter} < json > yaml
 
 	# convert YAML to JSON, run jq, convert back to YAML
 	yq {jq-filter} < yaml > yaml
@@ -49,6 +55,17 @@ foo:
 - id: 2
 </pre>
 
+<pre>
+echo '{"foo": "bar"}{"foo": "baz"}' | j2y -s .
+</pre>
+
+yields:
+
+<pre>
+- foo: bar
+- foo: baz
+</pre>
+
 ##y2j
 <pre>
 (
@@ -85,7 +102,8 @@ foo:
 
 #LIMITATIONS
 * y2j only supports the subset of YAML streams that can be losslessly represented in JSON.
-* j2y only supports reading of a single JSON object or a single JSON array from stdin.
+* j2y only supports reading of a single JSON object or a single JSON array from stdin. If the JSON input contains
+multiple objects, consider using '-s .' with j2y to slurp the input into a single JSON array.
 * yq only supports jq-filters that are guaranteed to produce a single JSON object or array.
 
 Behaviour with inputs or filters that do not satisfy these constraints is not defined.

@@ -88,7 +88,13 @@ y2j() {
 		shift 1
 		j2y "$@"
 	else
-		python -c 'import sys, yaml, json; json.dump(yaml.load(sys.stdin), sys.stdout, indent=4)'
+		python -c 'import sys, yaml, json; json.dump(yaml.load(sys.stdin), sys.stdout, indent=4)' | (
+			if test $# -gt 0; then
+				jq "$@"
+			else
+				cat
+			fi
+		)
 	fi
 }
 
@@ -97,7 +103,13 @@ j2y() {
 		shift 1
 		y2j "$@"
 	else
-		python -c 'import sys, yaml, json; yaml.safe_dump(json.load(sys.stdin), sys.stdout, default_flow_style=False)'
+		(
+			if test $# -gt 0; then
+				jq "$@"
+			else
+				cat
+			fi
+		) | python -c 'import sys, yaml, json; yaml.safe_dump(json.load(sys.stdin), sys.stdout, default_flow_style=False)'
 	fi
 }
 
