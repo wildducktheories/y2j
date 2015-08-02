@@ -105,7 +105,7 @@ y2j_sh() {
 	cmd=$1
 	shift 1
 	case "$cmd" in
-		installer|version)
+		installer|version|j2y|y2j|yq)
 			"$cmd" "$@"
 		;;
 		*)
