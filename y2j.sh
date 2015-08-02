@@ -7,6 +7,25 @@ die() {
 	exit 1
 }
 
+usage() {
+	cat <<EOF
+y2j.sh
+	installer {install-dir}
+	version
+
+yaml to json:
+	y2j < yaml > json
+	j2y -d < yaml > json
+
+json to yaml:
+	j2y < json > yaml
+	y2j -d < json > yaml
+
+filtered yaml:
+	yq {jq-filter} < yaml > yaml
+EOF
+}
+
 installer() {
 	local target=${1:-/usr/local/bin}
 	META_IMAGE=${META_IMAGE:-wildducktheories/y2j}
@@ -88,7 +107,7 @@ y2j_sh() {
 			"$cmd" "$@"
 		;;
 		*)
-			die "unrecognized command: $cmd"
+			usage
 		;;
 	esac
 }
