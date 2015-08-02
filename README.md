@@ -84,7 +84,7 @@ foo:
 </pre>
 
 #LIMITATIONS
-* y2j only the subset of YAML streams that can be losslessly represented in JSON.
+* y2j only supports the subset of YAML streams that can be losslessly represented in JSON.
 * j2y only supports reading of a single JSON object or a single JSON array from stdin.
 * yq only supports jq-filters that are guaranteed to produce a single JSON object or array.
 
