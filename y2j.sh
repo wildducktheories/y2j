@@ -3,7 +3,8 @@
 set -o pipefail
 
 VERSION=1.1
-META_IMAGE=${META_IMAGE:-wildducktheories/y2j}
+DEFAULT_META_IMAGE=wildducktheories/y2j
+META_IMAGE=${META_IMAGE:-${DEFAULT_META_IMAGE}}
 
 die() {
 	echo "$*" 1>&2
@@ -47,7 +48,7 @@ install() {
 	local target=\${1:-${target}}
 	(
 		base64 -D <<EOF_EOF
-$(cat "$BASH_SOURCE" | base64)
+$(sed "s|^\(DEFAULT_META_IMAGE=\).*|\1${META_IMAGE}|" < "$BASH_SOURCE" | base64)
 EOF_EOF
 	) | tee \${target}/y2j.sh >/dev/null &&
 	chmod ugo+x \${target}/y2j.sh &&
