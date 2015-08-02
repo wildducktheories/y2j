@@ -103,7 +103,7 @@ foo:
 </pre>
 
 #LIMITATIONS
-* y2j only supports the subset of YAML streams that can be losslessly represented in JSON.
+* y2j and yq only support the subset of YAML streams that can be losslessly represented in JSON - that is: trees. Graphs, anchors and references are not supported.
 * j2y only supports reading of a single JSON object or a single JSON array from stdin. If the JSON input contains
 multiple objects, consider using '-s .' with j2y to slurp the input into a single JSON array.
 * yq only supports jq-filters that are guaranteed to produce a single JSON object or array.
