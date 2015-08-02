@@ -13,15 +13,15 @@
 	# convert YAML to JSON, run jq, convert back to YAML
 	yq {jq-filter} < yaml > yaml
 
-	# create an installer that will install into /usr/local/bin
-	y2j.sh installer /usr/local/bin
+	# create an installer that will install y2j.sh into /usr/local/bin, then run that script with bash
+	y2j.sh installer /usr/local/bin | sudo bash
 
 #DESCRIPTION
 
-This package provides a utility for transforming JSON to YAML, YAML to JSON and YAML to YAML.
+This package provides a utilities for transforming JSON to YAML, YAML to JSON and YAML to YAML.
 
-YAML to YAML transformations are performed by applying a jq filter to an JSON transformation of the YAML input stream and
-transforming the result back to YAML.
+YAML to YAML transformations are performed by applying a jq filter to a JSON transformation of the YAML input stream and
+transforming the resulting stream back to YAML.
 
 The script will use the local instances of jq, python and the required python modules if they exist locally
 or will use a docker container based on the wildducktheories/y2j image otherwise.
@@ -29,8 +29,11 @@ or will use a docker container based on the wildducktheories/y2j image otherwise
 #INSTALLATION
 
 ```
-docker run --rm wildducktheories/y2j y2j.sh installer /usr/local/bin | bash
+docker run --rm wildducktheories/y2j y2j.sh installer /usr/local/bin | sudo bash
 ```
+
+Replace /usr/local/bin with a different directory to specify a different installation location or omit it to install
+in /usr/local/bin.
 
 #EXAMPLES
 ##j2y
@@ -83,7 +86,7 @@ foo:
 
 #LIMITATIONS
 * only the subset of YAML streams that can be losslessly represented in JSON is supported. behaviour with larger subsets is undefined.
-* j2y only supports converstion of a single object or a single array on stdin, consequently jq-filters specified with yq
+* j2y only supports conversion of a single object or a single array on stdin, consequently jq-filters specified with yq
 must only produce outputs which satisfy this constraint otherwise the pipeline will fail.
 
 

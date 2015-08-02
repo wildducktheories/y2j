@@ -47,11 +47,11 @@ install() {
 		base64 -D <<EOF_EOF
 $(cat "$BASH_SOURCE" | base64)
 EOF_EOF
-	) | sudo tee \${target}/y2j.sh >/dev/null &&
-	sudo chmod ugo+x \${target}/y2j.sh &&
-	sudo ln -sf y2j.sh \${target}/y2j &&
-	sudo ln -sf y2j.sh \${target}/j2y &&
-	sudo ln -sf y2j.sh \${target}/yq &&
+	) | tee \${target}/y2j.sh >/dev/null &&
+	chmod ugo+x \${target}/y2j.sh &&
+	ln -sf y2j.sh \${target}/y2j &&
+	ln -sf y2j.sh \${target}/j2y &&
+	ln -sf y2j.sh \${target}/yq &&
 	echo "Installed \${target}/{y2h.sh,y2j,j2y,yq}."
 }
 install "\$@"
