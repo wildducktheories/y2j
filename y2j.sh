@@ -94,6 +94,7 @@ y2j_sh() {
 }
 
 yq() {
+	test $# -gt 0 || die "usage: yq {jq-filter}"
 	y2j | jq "$@" | j2y
 }
 
