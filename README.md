@@ -1,5 +1,5 @@
 #NAME
-	y2j, j2y, yq - a tool to convert python to yaml and yaml to python
+	y2j, j2y, yq - a tool to convert JSON to YAML, YAML to JSON and YAML to YAML.
 
 #SYNOPSIS
 	# convert from YAML to JSON
@@ -13,12 +13,15 @@
 	# convert YAML to JSON, run jq, convert back to YAML
 	yq {jq-filter} < yaml > yaml
 
-	# create an installer for this script
-	y2j.sh installer
+	# create an installer that will install into /usr/local/bin
+	y2j.sh installer /usr/local/bin
 
 #DESCRIPTION
 
-This tool provides a utility for converting json to yaml and vice versa.
+This package provides a utility for transforming JSON to YAML, YAML to JSON and YAML to YAML.
+
+YAML to YAML transformations are performed by applying a jq filter to an JSON transformation of the YAML input stream and
+transforming the result back to YAML.
 
 The script will use the local instances of jq, python and the required python modules if they exist locally
 or will use a docker container based on the wildducktheories/y2j image otherwise.
@@ -29,9 +32,60 @@ or will use a docker container based on the wildducktheories/y2j image otherwise
 docker run --rm wildducktheories/y2j y2j.sh installer /usr/local/bin | bash
 ```
 
+#EXAMPLES
+##j2y
+<pre>
+echo '{ "foo": [ { "id": 1 } , {"id": 2 }] }' | j2y
+</pre>
+
+yields:
+
+<pre>
+foo:
+- id: 1
+- id: 2
+</pre>
+
+##y2j
+<pre>
+(
+	y2j &lt;&lt;EOF
+foo:
+- id: 1
+- id: 2
+EOF
+) | jq -c .
+</pre>
+
+yields:
+
+<pre>
+{"foo":[{"id":1},{"id":2}]}
+</pre>
+
+##yq
+
+<pre>
+yq '.foo=(.foo[]|select(.id == 1)|[.])' &lt;&lt;EOF
+foo:
+- id: 1
+- id: 2
+EOF
+</pre>
+
+yields:
+
+<pre>
+foo:
+- id: 1
+</pre>
+
+
 #LIMITATIONS
-j2y only supports converstion of a single object or a single array on stdin, consequently jq-filters specified with yq
+* only the subset of YAML streams that can be losslessly represented in JSON is supported. behaviour with larger subsets is undefined.
+* j2y only supports converstion of a single object or a single array on stdin, consequently jq-filters specified with yq
 must only produce outputs which satisfy this constraint otherwise the pipeline will fail.
+
 
 #AUTHOR
 
@@ -39,9 +93,11 @@ Jon Seymour &lt;jon@wildducktheories.com&gt;
 
 #ACKNOWLEDGMENTS
 
-Conversions based on the commandlinefu scripts found here:
+Conversions used by y2j.sh are based on the commandlinefu scripts found here:
 * http://www.commandlinefu.com/commands/view/12218/convert-yaml-to-json
 * http://www.commandlinefu.com/commands/view/12219/convert-json-to-yaml
+
+Filtering is implemented with jq. See http://stedolan.github.io/jq/.
 
 #REVISIONS
 
