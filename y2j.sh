@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -o pipefail
+
 VERSION=1.1
 META_IMAGE=${META_IMAGE:-wildducktheories/y2j}
 
