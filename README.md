@@ -55,6 +55,8 @@ foo:
 - id: 2
 </pre>
 
+##j2y - with jq pre-stage
+
 <pre>
 echo '{"foo": "bar"}{"foo": "baz"}' | j2y -s .
 </pre>
