@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 VERSION=1.1
+META_IMAGE=${META_IMAGE:-wildducktheories/y2j}
 
 die() {
 	echo "$*" 1>&2
@@ -28,7 +29,6 @@ EOF
 
 installer() {
 	local target=${1:-/usr/local/bin}
-	META_IMAGE=${META_IMAGE:-wildducktheories/y2j}
 
 	cat <<EOF
 #!/bin/bash
@@ -68,7 +68,7 @@ python() {
 	if test -n "$PYTHON" && $PYTHON -c 'import sys, yaml, json;' 2>/dev/null; then
 		$PYTHON "$@"
 	else
-		docker run --rm -i ${IMAGE} python "$@"
+		docker run --rm -i ${META_IMAGE} python "$@"
 	fi
 }
 
@@ -77,7 +77,7 @@ jq() {
 	if test -n "$JQ"; then
 		"$JQ" "$@"
 	else
-		docker run --rm -i ${IMAGE} jq "$@"
+		docker run --rm -i ${META_IMAGE} jq "$@"
 	fi
 }
 
