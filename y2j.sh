@@ -55,7 +55,7 @@ EOF_EOF
 	ln -sf y2j.sh \${target}/y2j &&
 	ln -sf y2j.sh \${target}/j2y &&
 	ln -sf y2j.sh \${target}/yq &&
-	echo "Installed \${target}/{y2h.sh,y2j,j2y,yq}."
+	echo "Installed \${target}/{y2j.sh,y2j,j2y,yq}."
 }
 install "\$@"
 EOF
