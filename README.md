@@ -126,6 +126,13 @@ Filtering is implemented with jq. See http://stedolan.github.io/jq/.
 
 #REVISIONS
 
+##1.1.1
+
+* Fixed typo in installation message.
+* Support running on Linux.
+
+Both fixes thanks to reports submitted by Henrik Holmboe.
+
 ##1.1
 * Added support for yq.
 

@@ -2,7 +2,7 @@
 
 set -o pipefail
 
-VERSION=1.1
+VERSION=1.1.1
 DEFAULT_META_IMAGE=wildducktheories/y2j
 META_IMAGE=${META_IMAGE:-${DEFAULT_META_IMAGE}}
 
