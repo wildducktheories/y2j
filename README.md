@@ -41,6 +41,8 @@ docker run --rm wildducktheories/y2j y2j.sh installer /usr/local/bin | sudo bash
 Replace /usr/local/bin with a different directory to specify a different installation location or omit to
 default to /usr/local/bin.
 
+If the installer fails with complaints about lack of a running docker daemon or failure to find a wildducktheories/y2j image, consider changing ```sudo bash``` to ```sudo -E bash``` so that root inherits the current user's docker environment.
+
 #EXAMPLES
 ##j2y
 <pre>
