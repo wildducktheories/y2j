@@ -44,10 +44,24 @@ base64() {
 		docker run --rm -i \${META_IMAGE} base64 "\$@"
 	fi
 }
+
+
+decode_opt() {
+	TEST_DECODE=\$(echo "MAo=" | base64 -D 2>/dev/null)
+	case "\$TEST_DECODE" in
+	0)
+		echo -D
+	;;
+	*)
+		echo -d
+	;;
+	esac
+}
+
 install() {
 	local target=\${1:-${target}}
 	(
-		base64 -D <<EOF_EOF
+		base64 \$(decode_opt) <<EOF_EOF
 $(sed "s|^\(DEFAULT_META_IMAGE=\).*|\1${META_IMAGE}|" < "$BASH_SOURCE" | base64)
 EOF_EOF
 	) | tee \${target}/y2j.sh >/dev/null &&
