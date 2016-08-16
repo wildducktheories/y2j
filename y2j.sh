@@ -103,7 +103,20 @@ y2j() {
 		shift 1
 		j2y "$@"
 	else
-		python -c 'import sys, yaml, json; json.dump(yaml.load(sys.stdin), sys.stdout, indent=4)' | (
+		read -r -d '' script <<-"EOF"
+		# Python code here prefixed by hard tab
+		import sys, yaml, json;
+		import io;
+		input = sys.stdin.read()
+		stdin = io.BytesIO(input)
+		try:
+		  json.dump(yaml.load(stdin), sys.stdout, indent=4)
+		except yaml.composer.ComposerError:
+		  stdin.seek(0)
+		  json.dump( [doc for doc in yaml.load_all(stdin)], sys.stdout, indent=4)
+EOF
+
+		python -c "$script" | (
 			if test $# -gt 0; then
 				jq "$@"
 			else
