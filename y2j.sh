@@ -108,7 +108,7 @@ y2j() {
 		import sys, yaml, json;
 		for doc in yaml.load_all(sys.stdin):
 		  json.dump(doc, sys.stdout, indent=4)
-		  print ""
+		  print("")
 EOF
 
 		python -c "$script" | (
