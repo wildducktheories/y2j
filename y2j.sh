@@ -106,14 +106,9 @@ y2j() {
 		read -r -d '' script <<-"EOF"
 		# Python code here prefixed by hard tab
 		import sys, yaml, json;
-		import io;
-		input = sys.stdin.read()
-		stdin = io.BytesIO(input)
-		try:
-		  json.dump(yaml.load(stdin), sys.stdout, indent=4)
-		except yaml.composer.ComposerError:
-		  stdin.seek(0)
-		  json.dump( [doc for doc in yaml.load_all(stdin)], sys.stdout, indent=4)
+		for doc in yaml.load_all(sys.stdin):
+		  json.dump(doc, sys.stdout, indent=4)
+		  print ""
 EOF
 
 		python -c "$script" | (
