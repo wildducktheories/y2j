@@ -103,7 +103,15 @@ y2j() {
 		shift 1
 		j2y "$@"
 	else
-		python -c 'import sys, yaml, json; json.dump(yaml.load(sys.stdin), sys.stdout, indent=4)' | (
+		read -r -d '' script <<-"EOF"
+		# Python code here prefixed by hard tab
+		import sys, yaml, json;
+		for doc in yaml.load_all(sys.stdin):
+		  json.dump(doc, sys.stdout, indent=4)
+		  print("")
+EOF
+
+		python -c "$script" | (
 			if test $# -gt 0; then
 				jq "$@"
 			else
